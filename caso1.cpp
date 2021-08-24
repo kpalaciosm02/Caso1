@@ -2,6 +2,7 @@
 #include <string>
 #include <typeinfo>
 #include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -64,6 +65,26 @@ struct LinkedList{
         }
     }
 
+    int countWord(string _frase){
+        int counter = 0;
+        if (firstNode == NULL)
+            return 0;
+        else{
+            Node * tmp = firstNode;
+            while(tmp != NULL){
+                int res = tmp->frase.compare(_frase);
+                if (res == 0){
+                    counter += 1;
+                    tmp = tmp->next;
+                }
+                else{
+                    tmp = tmp->next;
+                }
+            }
+            return counter;
+        }
+    }
+
     void printList(){
         if (firstNode == NULL){
             cout << "Lista vacía" << endl;
@@ -93,9 +114,18 @@ void stringSplitter(string frase, LinkedList* wordList){
     istringstream ss(frase);
     string word;
     while (ss>>word){
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
         wordList->insertAtEnd(word);
         //cout << word << endl;
     }
+}
+
+void twoStringDetector(string frase1, string frase2){
+    LinkedList * words = new LinkedList();
+    stringSplitter(frase1, words);
+    stringSplitter(frase2, words);
+
+    
 }
 
 int main(){
@@ -115,4 +145,5 @@ int main(){
     stringSplitter(frase, words);
     stringSplitter(frase2, words);
     words->printList();
+    cout << "Cantidad de 'esto': " << words->countWord("esto");
 }
