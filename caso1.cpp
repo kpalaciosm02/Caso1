@@ -61,7 +61,6 @@ struct LinkedList{
                     break;
                 }
             }
-            cout << endl;
         }
     }
 
@@ -85,6 +84,21 @@ struct LinkedList{
         }
     }
 
+    int listLarge(){
+        if (firstNode == NULL){
+            return 0;
+        }
+        else{
+            int large = 0;
+            Node * tmp = firstNode;
+            while (tmp != NULL){
+                large += 1;
+                tmp = tmp->next;
+            }
+            return large;
+        }
+    }
+
     void printList(){
         if (firstNode == NULL){
             cout << "Lista vacía" << endl;
@@ -98,17 +112,24 @@ struct LinkedList{
             cout << endl;
         }
     }
-};
 
-/*void stringSplitter1(string frase){
-    int inicio = 0;
-    for (int i = 0; i<frase.size(); i++){
-        if (frase[i] == ' '){
-            cout << frase.substr(inicio, i) << endl;
-            inicio = i+1;
+    void printHalfList(){
+        if (firstNode == NULL){
+            cout << "Lista vacía" << endl;
+        }
+        else{
+            int large = listLarge()/2;
+            Node * tmp = firstNode;
+            int actual = 1;
+            while (actual <= large){
+                cout << tmp->frase << " -> ";
+                tmp = tmp->next;
+                actual += 1;
+            }
+            cout  << endl;
         }
     }
-}*/
+};
 
 void stringSplitter(string frase, LinkedList* wordList){
     istringstream ss(frase);
@@ -116,7 +137,6 @@ void stringSplitter(string frase, LinkedList* wordList){
     while (ss>>word){
         transform(word.begin(), word.end(), word.begin(), ::tolower);
         wordList->insertAtEnd(word);
-        //cout << word << endl;
     }
 }
 
@@ -124,8 +144,19 @@ void twoStringDetector(string frase1, string frase2){
     LinkedList * words = new LinkedList();
     stringSplitter(frase1, words);
     stringSplitter(frase2, words);
-
-    
+    Node * actualNode = words->firstNode;
+    LinkedList * repited = new LinkedList();
+    while (actualNode != NULL){
+        string frase = actualNode->frase;
+        if (words->countWord(frase) > 1){
+            repited->insert(frase);
+            actualNode = actualNode->next;
+        }
+        else{
+            actualNode = actualNode->next;
+        }
+    }
+    repited->printHalfList();
 }
 
 int main(){
@@ -139,11 +170,14 @@ int main(){
     lista->insertAtEnd("Hola3");   
     lista->printList();*/
 
-    LinkedList * words = new LinkedList();
+    //LinkedList * words = new LinkedList();
     string frase = "Esto es una prueba";
-    string frase2 = "Vamos a probar esto de nuevo";
-    stringSplitter(frase, words);
-    stringSplitter(frase2, words);
-    words->printList();
-    cout << "Cantidad de 'esto': " << words->countWord("esto");
+    string frase2 = "Vamos a probar esto de una vez";
+    //stringSplitter(frase, words);
+    //stringSplitter(frase2, words);
+    //words->printList();
+    //words->printHalfList();
+    //cout << "Cantidad de 'esto': " << words->countWord("esto");
+    twoStringDetector(frase,frase2);
+    //cout << "Largo: " << words->listLarge() << endl;
 }
