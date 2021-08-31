@@ -33,6 +33,11 @@ struct Node{
         //Imprime la informacion de un nodo en pantalla
         cout << frase << " -> ";
     }
+
+    void printCleanData(){
+        cout << frase <<  " ";
+    }
+
 };
 
 struct LinkedList{
@@ -124,6 +129,21 @@ struct LinkedList{
         }
     }
 
+    void printCleanList(){
+        //Imprime los datos de la lista del primero al ultimo sin "->"
+        if (firstNode == NULL){
+            cout << "Lista vacía" << endl;
+        }
+        else{
+            Node * tmp = firstNode;
+            while(tmp != NULL){
+                tmp->printCleanData();
+                tmp = tmp->next;
+            }
+            cout << endl;
+        }
+    }
+
     void printHalfList(){
         //Imprime la primera mitad de la lista
         if (firstNode == NULL){
@@ -204,7 +224,7 @@ LinkedList * stringInTwoLists(string frase1, string frase2){
     while (words1First != NULL){
         bool check = stringCheck(words1First->frase, words2);
         if (check == true){
-            repited->insertAtEnd(words1First->frase);
+            repited->insert(words1First->frase);
             words1First = words1First->next;
         }
         else{
@@ -212,6 +232,32 @@ LinkedList * stringInTwoLists(string frase1, string frase2){
         }
     }
     return repited;
+}
+
+void coincidenceSearcher(LinkedList * frases){
+    Node * firstNode = frases->firstNode;
+    
+    if (firstNode == NULL){
+        cout << "Lista vacia" << endl;
+    }
+    else{
+        while (firstNode->next != NULL){
+            Node * secondNode = firstNode->next;
+            string frase1 = firstNode->frase;
+            while (secondNode != NULL){
+                string frase2 = secondNode->frase;
+                //cout << frase1 << endl;
+                //cout << frase2 << endl;
+                LinkedList * repited = stringInTwoLists(frase1, frase2);
+                if (repited->firstNode != NULL){
+                    cout << frase1 << " , " << frase2 << " -> ";
+                    repited->printCleanList();
+                }
+                secondNode = secondNode->next;
+            }
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 int main(){
@@ -226,8 +272,14 @@ int main(){
     lista->printList();*/
 
     LinkedList * words = new LinkedList();
-    string frase = "Esto es una prueba";
-    string frase2 = "Vamos a probar esto de una vez";
-    LinkedList * repited = stringInTwoLists(frase,frase2);
-    repited->printList();
+    string frase1 = "estoy escribiendo la tarea";
+    string frase2 = "mañana voy en carro";
+    string frase3 = "estoy en el carro escribiendo la poesía";
+    string frase4 = "voy mañana a ver la tarea";
+    LinkedList * frases = new LinkedList();
+    frases->insertAtEnd(frase1);
+    frases->insertAtEnd(frase2);
+    frases->insertAtEnd(frase3);
+    frases->insertAtEnd(frase4);
+    coincidenceSearcher(frases);
 }
