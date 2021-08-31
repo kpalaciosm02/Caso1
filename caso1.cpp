@@ -7,47 +7,36 @@
 using namespace std;
 
 struct Node{
-    /*
-    Nodo de una lista enlazada de strings
-    */
-
+    //Nodo de una lista enlazada de strings
     string frase;
     Node* next;
-
     Node(){
         frase = "";
         next = NULL;
     }
-
     Node(string _frase){
         frase = _frase;
         next = NULL;
     }
-
     Node(string _frase, Node * _next){
         frase = _frase;
         next = _next;
     }
-
     void printData (){
         //Imprime la informacion de un nodo en pantalla
         cout << frase << " -> ";
     }
-
     void printCleanData(){
         cout << frase <<  " ";
     }
-
 };
 
 struct LinkedList{
     //Lista enlazada
     Node * firstNode;
-
     LinkedList(){
         firstNode = NULL;
     }
-
     void insert(string _frase){
         //Inserta un string al inicio de una lista enlazada
         if (firstNode == NULL)
@@ -58,7 +47,6 @@ struct LinkedList{
             firstNode = tmp;
         }
     }
-
     void insertAtEnd(string _frase){
         //Inserta un string al final de una lista enlazada
         if (firstNode == NULL)
@@ -76,7 +64,6 @@ struct LinkedList{
             }
         }
     }
-
     int countWord(string _frase){
         //Cuenta cuantas veces se repite un string dentro de la lista
         int counter = 0;
@@ -97,7 +84,6 @@ struct LinkedList{
             return counter;
         }
     }
-
     int listLarge(){
         //Retorna el largo de la lista
         if (firstNode == NULL){
@@ -113,7 +99,6 @@ struct LinkedList{
             return large;
         }
     }
-
     void printList(){
         //Imprime todos los datos de la lista, del primero al ultimo
         if (firstNode == NULL){
@@ -128,7 +113,6 @@ struct LinkedList{
             cout << endl;
         }
     }
-
     void printCleanList(){
         //Imprime los datos de la lista del primero al ultimo sin "->"
         if (firstNode == NULL){
@@ -143,7 +127,6 @@ struct LinkedList{
             cout << endl;
         }
     }
-
     void printHalfList(){
         //Imprime la primera mitad de la lista
         if (firstNode == NULL){
@@ -215,6 +198,7 @@ bool stringCheck(string word, LinkedList * list){
 }
 
 LinkedList * stringInTwoLists(string frase1, string frase2){
+    //Recibe 2 strings y mete en una lista las palabras que se repiten en las 2. Retorna esa lista
     LinkedList * words1 = new LinkedList();
     LinkedList * words2 = new LinkedList();
     LinkedList * repited = new LinkedList();
@@ -235,6 +219,7 @@ LinkedList * stringInTwoLists(string frase1, string frase2){
 }
 
 void coincidenceSearcher(LinkedList * frases){
+    //recibe una lista de frases (strings) y revisa todas las coincidencias entre todas las strings, todos los casos posibles
     Node * firstNode = frases->firstNode;
     
     if (firstNode == NULL){
