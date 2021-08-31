@@ -7,6 +7,10 @@
 using namespace std;
 
 struct Node{
+    /*
+    Nodo de una lista enlazada de strings
+    */
+
     string frase;
     Node* next;
 
@@ -26,11 +30,13 @@ struct Node{
     }
 
     void printData (){
+        //Imprime la informacion de un nodo en pantalla
         cout << frase << " -> ";
     }
 };
 
 struct LinkedList{
+    //Lista enlazada
     Node * firstNode;
 
     LinkedList(){
@@ -38,6 +44,7 @@ struct LinkedList{
     }
 
     void insert(string _frase){
+        //Inserta un string al inicio de una lista enlazada
         if (firstNode == NULL)
             firstNode = new Node(_frase);
         else{
@@ -48,6 +55,7 @@ struct LinkedList{
     }
 
     void insertAtEnd(string _frase){
+        //Inserta un string al final de una lista enlazada
         if (firstNode == NULL)
             firstNode = new Node(_frase);
         else{
@@ -65,6 +73,7 @@ struct LinkedList{
     }
 
     int countWord(string _frase){
+        //Cuenta cuantas veces se repite un string dentro de la lista
         int counter = 0;
         if (firstNode == NULL)
             return 0;
@@ -85,6 +94,7 @@ struct LinkedList{
     }
 
     int listLarge(){
+        //Retorna el largo de la lista
         if (firstNode == NULL){
             return 0;
         }
@@ -100,6 +110,7 @@ struct LinkedList{
     }
 
     void printList(){
+        //Imprime todos los datos de la lista, del primero al ultimo
         if (firstNode == NULL){
             cout << "Lista vacía" << endl;
         }
@@ -114,6 +125,7 @@ struct LinkedList{
     }
 
     void printHalfList(){
+        //Imprime la primera mitad de la lista
         if (firstNode == NULL){
             cout << "Lista vacía" << endl;
         }
@@ -132,6 +144,8 @@ struct LinkedList{
 };
 
 void stringSplitter(string frase, LinkedList* wordList){
+    //recibe un string y una lista
+    //separa el string en palabras y las inserta una por una en la lista
     istringstream ss(frase);
     string word;
     while (ss>>word){
@@ -141,6 +155,8 @@ void stringSplitter(string frase, LinkedList* wordList){
 }
 
 void twoStringDetector(string frase1, string frase2){
+    //revisa si una palabra se repite mas de una vez entre 2 strings
+    //no sirve en este caso porque si una palabra esta dos veces en un string, daria lo mismo a si esta 1 vez en cada string
     LinkedList * words = new LinkedList();
     stringSplitter(frase1, words);
     stringSplitter(frase2, words);
@@ -159,6 +175,45 @@ void twoStringDetector(string frase1, string frase2){
     repited->printHalfList();
 }
 
+bool stringCheck(string word, LinkedList * list){
+    //revisa si un string esta dentro de una lista
+    Node * actual = list->firstNode;
+    if (actual == NULL){
+        return false;
+    }
+    else{
+        while (actual != NULL){
+            if (actual->frase == word){
+                return true;
+            }
+            else{
+                actual = actual->next;
+            }
+        }
+        return false;
+    }
+}
+
+LinkedList * stringInTwoLists(string frase1, string frase2){
+    LinkedList * words1 = new LinkedList();
+    LinkedList * words2 = new LinkedList();
+    LinkedList * repited = new LinkedList();
+    stringSplitter(frase1, words1);
+    stringSplitter(frase2, words2);
+    Node * words1First = words1->firstNode;
+    while (words1First != NULL){
+        bool check = stringCheck(words1First->frase, words2);
+        if (check == true){
+            repited->insertAtEnd(words1First->frase);
+            words1First = words1First->next;
+        }
+        else{
+            words1First = words1First->next;
+        }
+    }
+    return repited;
+}
+
 int main(){
     /*Node * nodo = new Node();
     nodo->frase = "Hola";
@@ -170,14 +225,9 @@ int main(){
     lista->insertAtEnd("Hola3");   
     lista->printList();*/
 
-    //LinkedList * words = new LinkedList();
+    LinkedList * words = new LinkedList();
     string frase = "Esto es una prueba";
     string frase2 = "Vamos a probar esto de una vez";
-    //stringSplitter(frase, words);
-    //stringSplitter(frase2, words);
-    //words->printList();
-    //words->printHalfList();
-    //cout << "Cantidad de 'esto': " << words->countWord("esto");
-    twoStringDetector(frase,frase2);
-    //cout << "Largo: " << words->listLarge() << endl;
+    LinkedList * repited = stringInTwoLists(frase,frase2);
+    repited->printList();
 }
