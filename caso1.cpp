@@ -9,7 +9,7 @@ using namespace std;
 struct Node{
     //Nodo de una lista enlazada de strings
     string frase;
-    Node* next;
+    Node * next;
     Node(){
         frase = "";
         next = NULL;
