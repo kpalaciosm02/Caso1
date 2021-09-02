@@ -5,8 +5,6 @@
 
 using namespace std;
 
-#define MAXIMO_CASILLAS 75
-
 struct excelBox{
     //Casilla de excel con datos y coordenadas
     int dato;
@@ -79,6 +77,7 @@ struct excelList{
             while (tmp != NULL){
                 if (tmp->next == NULL){
                     tmp->next = _node;
+                    break;
                 }
                 else{
                     tmp = tmp->next;
@@ -87,14 +86,45 @@ struct excelList{
         }
     }
 
+    void insertData(int _dato, string _ejeX, int _ejeY){
+        //Insertar al inicio un nodo nuevo con datos nuevos
+        Node * _node = new Node(_dato, _ejeX, _ejeY);
+        if (firstNode == NULL){
+            firstNode = _node;
+        }
+        else{
+            _node->next = firstNode;
+            firstNode = _node;
+        }
+    }
+
+    void insertDataEnd(int _dato, string _ejeX, int _ejeY){
+        //Insertar al final un nodo nuevo con datos nuevos
+        Node * _node = new Node(_dato, _ejeX, _ejeY);
+        if (firstNode == NULL){
+            firstNode = _node;
+        }
+        else{
+            Node * tmp = firstNode;
+            while (tmp != NULL){
+                if (tmp->next == NULL){
+                    tmp->next = _node;
+                    break;
+                }
+                else{
+                    tmp = tmp->next;
+                }
+            }
+        }
+    }
 };
 
 int main(){
-    /*excelBox lista[MAXIMO_CASILLAS];
-    int lista3[5];
-    lista3[0] = 5;
-    cout << "Lista 3: " << lista3[0] << endl;*/
     //Terminar de crear la lista de casillas
     //Hacer un algoritmo que reciba una lista de casillas y una lista de coordenadas que sumar y realice la suma
+    excelBox * casilla = new excelBox(2,"B",3);
+    cout << "Dato: " << casilla->dato << endl;
+    cout << "Coordinada x: " << casilla->ejeX << endl;
+    cout << "Coordinada y: " << casilla->ejeY << endl;
     return 0;
 }
