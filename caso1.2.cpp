@@ -33,14 +33,12 @@ struct excelBox{
 
 struct Node{
     //Nodeo de una lista de casillas
-    excelBox datos = excelBox();
+    excelBox * datos = new excelBox();
     Node * next;
 
     Node(int _dato, string _ejeX, int _ejeY){
         //Constructor con los datos en la entrada
-        datos.dato = _dato;
-        datos.ejeX = _ejeX;
-        datos.ejeY = _ejeY;
+        datos = new excelBox(_dato, _ejeX, _ejeY);
         next = NULL;
     }
 
@@ -117,14 +115,37 @@ struct excelList{
             }
         }
     }
+
+    void printList(){
+        if (firstNode == NULL){
+            cout << "Lista vacia" << endl;
+        }
+        else{
+            Node * tmp = firstNode;
+            while(tmp != NULL){
+                cout << "Coordenada x: " << tmp->datos->ejeX << " Coordenada y: " << tmp->datos->ejeY << " Dato: " << tmp->datos->dato << endl;
+                tmp = tmp->next;
+            }
+        }
+    }
 };
 
 int main(){
     //Terminar de crear la lista de casillas
     //Hacer un algoritmo que reciba una lista de casillas y una lista de coordenadas que sumar y realice la suma
-    excelBox * casilla = new excelBox(2,"B",3);
-    cout << "Dato: " << casilla->dato << endl;
-    cout << "Coordinada x: " << casilla->ejeX << endl;
-    cout << "Coordinada y: " << casilla->ejeY << endl;
+    excelBox * casilla1 = new excelBox(2,"B",3);
+    cout << "Dato: " << casilla1->dato << endl;
+    cout << "Coordinada x: " << casilla1->ejeX << endl;
+    cout << "Coordinada y: " << casilla1->ejeY << endl;
+
+    Node * nodo1 = new Node(2,"B",3);
+    //cout << nodo1->datos->ejeY;
+
+    excelList * list = new excelList();
+    list->insertDataEnd(1,"C",5);
+    list->insertNodeAtEnd(nodo1);
+    list->insertDataEnd(3,"A", 3);
+    list->printList();
+
     return 0;
 }
