@@ -194,8 +194,29 @@ struct coordsList{
     }
 };
 
-void addCoincidences(excelList * tablero, coordenadas * coords){
-
+void addCoincidences(excelList * tablero, coordsList * coords){
+    int res = 0;
+    
+    Node * actualNode = tablero->firstNode;
+    while (actualNode != NULL){
+        coordsNode * actualCoord = coords->firstNode;
+        string xTablero = actualNode->datos->ejeX;
+        int yTablero = actualNode->datos->ejeY;
+        while (actualCoord != NULL){
+            string xNode = actualCoord->coords->ejeX;
+            int yNode = actualCoord->coords->ejeY;
+            if (xTablero == xNode && yTablero == yNode){
+                res += actualNode->datos->dato;
+                actualCoord = actualCoord->next;
+            }
+            else{
+                actualCoord = actualCoord->next;
+                continue;
+            } 
+        }
+        actualNode = actualNode->next;
+    }
+    cout << "Coincidencias: " << res << endl;
 }
 
 int main(){
@@ -217,9 +238,10 @@ int main(){
     
     cout << endl << endl;
     coordsList * coords = new coordsList();
-    coords->insertDataEnd("B",2);
+    coords->insertDataEnd("A",3);
     coords->insertData("C", 5);
     coords->printList();
 
+    addCoincidences(list,coords);
     return 0;
 }
