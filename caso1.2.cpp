@@ -87,33 +87,13 @@ struct excelList{
     void insertData(int _dato, string _ejeX, int _ejeY){
         //Insertar al inicio un nodo nuevo con datos nuevos
         Node * _node = new Node(_dato, _ejeX, _ejeY);
-        if (firstNode == NULL){
-            firstNode = _node;
-        }
-        else{
-            _node->next = firstNode;
-            firstNode = _node;
-        }
+        insertNode(_node);
     }
 
     void insertDataEnd(int _dato, string _ejeX, int _ejeY){
         //Insertar al final un nodo nuevo con datos nuevos
         Node * _node = new Node(_dato, _ejeX, _ejeY);
-        if (firstNode == NULL){
-            firstNode = _node;
-        }
-        else{
-            Node * tmp = firstNode;
-            while (tmp != NULL){
-                if (tmp->next == NULL){
-                    tmp->next = _node;
-                    break;
-                }
-                else{
-                    tmp = tmp->next;
-                }
-            }
-        }
+        insertNodeAtEnd(_node);
     }
 
     void printList(){
@@ -129,6 +109,94 @@ struct excelList{
         }
     }
 };
+
+struct coordenadas{
+    string ejeX;
+    int ejeY;
+
+    coordenadas(){
+        ejeX = "";
+        ejeY = 0;
+    }
+
+    coordenadas(string _ejeX, int _ejeY){
+        ejeX = _ejeX;
+        ejeY = _ejeY;
+    }
+
+    void printCoords(){
+        cout << "Eje x: " << ejeX << " Eje y: " << ejeY << endl;
+    }
+};
+
+struct coordsNode{
+    coordenadas * coords = new coordenadas();
+    coordsNode * next;
+
+    coordsNode(string _ejeX, int _ejeY){
+        coords = new coordenadas(_ejeX, _ejeY);
+        next = NULL;
+    }
+};
+
+struct coordsList{
+    coordsNode * firstNode;
+
+    void insertNode(coordsNode * _node){
+        if (firstNode == NULL){
+            firstNode = _node;
+        }
+        else{
+            _node->next = firstNode;
+            firstNode = _node;
+        }
+    }
+
+    void insertNodeEnd(coordsNode * _node){
+        if (firstNode == NULL){
+            firstNode = _node;
+        }
+        else{
+            coordsNode * tmp = _node;
+            while (tmp != NULL){
+                if (tmp->next == NULL){
+                    tmp->next = _node;
+                    break;
+                }
+                else{
+                    tmp = tmp->next;
+                }
+            }
+        }
+    }
+
+    void insertData(string _ejeX, int _ejeY){
+        coordsNode * _node = new coordsNode(_ejeX,_ejeY);
+        insertNode(_node);
+    }
+
+    void insertDataEnd(string _ejeX, int _ejeY){
+        coordsNode * _node = new coordsNode(_ejeX, _ejeY);
+        insertNodeEnd(_node);
+    }
+
+    void printList(){
+        if (firstNode == NULL){
+            cout << "Lista vacia" << endl;
+        }
+        else{
+            coordsNode * tmp = firstNode;
+            while (tmp != NULL){
+                tmp->coords->printCoords();
+                tmp = tmp->next;
+            }
+        }
+    }
+};
+
+void addCoincidences(excelList * tablero, coordenadas * coords){
+
+}
 
 int main(){
     //Terminar de crear la lista de casillas
@@ -146,6 +214,12 @@ int main(){
     list->insertNodeAtEnd(nodo1);
     list->insertDataEnd(3,"A", 3);
     list->printList();
+    
+    cout << endl << endl;
+    coordsList * coords = new coordsList();
+    coords->insertDataEnd("B",2);
+    coords->insertData("C", 5);
+    coords->printList();
 
     return 0;
 }
